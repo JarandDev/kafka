@@ -26,4 +26,4 @@ docker run -dt --name broker \
   -e KAFKA_LOG_DIRS=/tmp/kraft-combined-logs \
   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE=false \
   -v /home/ubuntu/storage-broker:/tmp/kraft-combined-logs \
-  broker:latest
+  ghcr.io/jaranddev/kafka:main
