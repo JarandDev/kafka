@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir /home/pi/kafka-storage/storage-broker
+cp -r /home/pi/kafka/storage-backup/broker02 /home/pi/kafka-storage/storage-broker
+
 docker network create kafka || true
 
 docker run -dt --name broker \
@@ -11,7 +14,7 @@ docker run -dt --name broker \
   -e KAFKA_BROKER_ID=2 \
   -e KAFKA_NODE_ID=2 \
   -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT \
-  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://broker:29091,PLAINTEXT_HOST://192.168.0.244:9091 \
+  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://broker:29091,PLAINTEXT_HOST://192.168.0.248:9091 \
   -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
   -e KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0 \
   -e KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1 \
@@ -19,11 +22,11 @@ docker run -dt --name broker \
   -e KAFKA_JMX_PORT=9101 \
   -e KAFKA_JMX_HOSTNAME=localhost \
   -e KAFKA_PROCESS_ROLES=broker,controller \
-  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@192.168.0.243:29081,2@broker:29081,3@192.168.0.245:29081 \
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@192.168.0.247:29081,2@broker:29081,3@192.168.0.249:29081 \
   -e KAFKA_LISTENERS=PLAINTEXT://broker:29091,CONTROLLER://broker:29081,PLAINTEXT_HOST://0.0.0.0:9091 \
   -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT \
   -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
   -e KAFKA_LOG_DIRS=/tmp/kraft-combined-logs \
   -e KAFKA_AUTO_CREATE_TOPICS_ENABLE=false \
-  -v /home/ubuntu/storage-broker:/tmp/kraft-combined-logs \
+  -v /home/pi/kafka-storage/storage-broker:/tmp/kraft-combined-logs \
   ghcr.io/jaranddev/kafka:main
