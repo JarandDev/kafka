@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir /home/pi/kafka-storage/storage-broker
+mkdir /home/pi/kafka-storage
 cp -r /home/pi/kafka/storage-backup/broker01 /home/pi/kafka-storage/storage-broker
 
 docker network create kafka || true
